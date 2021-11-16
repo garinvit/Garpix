@@ -1,0 +1,97 @@
+{% extends "pizza/base.html" %}
+
+{% block body %}
+        <!-- Page content-->
+        <div class="container">
+            <div class="row">
+                <!-- Blog entries-->
+                <div class="col-lg-8">
+                    <!-- Nested row for non-featured blog posts-->
+                    <div class="row">
+                        {% for pizza in pizzas %}
+                            {%  if forloop.counter == 1 or 3 %}
+                                <div class="col-lg-6">
+                            {% endif %}
+                            <!-- Blog post-->
+                                <div class="card mb-4">
+                                    <a href="{% url "pizza:pizza" pizza.slug %}">
+                                        {% if pizza.image %}<img class="card-img-top" src="{{ pizza.image.url}}" alt="{{ pizza.description }}" /></a>
+                                        {% else %}<img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="{{ pizza.description }}" />
+                                        {% endif %}
+                                    <div class="card-body">
+
+                                        <div class="small text-muted">
+                                             {{ pizza.author.username }} {{ pizza.created_at}}
+                                        </div>
+                                        <h2 class="card-title h4">{{ pizza.name}}
+                                            {% for tag in pizza.tags.all %}
+                                                <a href="/?tag={{ tag.name }}" class="badge rounded-pill bg-warning text-dark">{{ tag.name }}</a>
+                                            {% endfor %}
+                                        </h2>
+                                        <p class="card-text">{{ pizza.description }}</p>
+
+                                        <a class="btn btn-primary" href="{% url "pizza:pizza" pizza.slug %}">Подробнее</a>
+                                    </div>
+                                </div>
+                            {%  if forloop.counter == 1 or 3 %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    <!-- Pagination-->
+                    <nav aria-label="Pagination">
+                        <hr class="my-0" />
+                        <ul class="pagination justify-content-center my-4">
+                            {% if prev_page_url %}<a class="button button-primary" href="{{ prev_page_url }}">⟵</a>{% endif %}
+                            <a class="button disabled" href="">{{ current_page }}</a>
+                            {% if next_page_url %}<a class="button button-primary" href="{{ next_page_url }}">⟶</a>{% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                </div>
+                <!-- Side widgets-->
+                <div class="col-lg-4">
+                    <!-- Search widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Search</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <form action="{% url 'pizza:search_results' %}" method="get">
+                                    <input name="q" class="form-control" accept-charset="utf-8" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+{#                                    <button class="btn btn-primary" id="button-search" type="submit">Go!</button>#}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Categories widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Выберите ингредиенты</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {% for topping in toppings %}
+                                            <ul class="list-unstyled mb-0">
+                                                <div class="mb-3 form-check form-switch">
+                                                    <label  class="form-check-label" for="flexSwitchCheckChecked">{{ topping.name }}</label>
+                                                    <input name="{{ topping.id}}" class="form-check-input" type="checkbox" role="switch" id="{{ topping.id }}">
+                                                </div>
+                                            </ul>
+                                        {% endfor %}
+                                        <button class="w-100 btn btn-lg btn-primary" type="submit">Выбрать</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Side widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Side Widget</div>
+                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "pizza/base.html" %}
+
+{% block body %}
+
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="col-lg-8">
+                <!-- Nested row for non-featured blog posts-->
+                <div class="row">
+                    <!-- Blog post-->
+
+                    <h2 class="display-5 mb-lg-2">API</h2>
+                    <p>
+                        <a class="display-6 " href="{% url 'api:api_pizzas' %}"> Основная информация о пиццах.</a>
+                        <br>
+                        Доступный метод только GET, аутенфикация не нужна.
+                    </p>
+                    <p>
+                        <a class="display-6 " href="{% url 'api:pizza_model' %}"> АПИ модели пиццы</a>
+                        <br>
+                        АПИ для модели пицца доступыне методы GET, POST нужна авторизация через токен.<br>
+                        Токен можно получить в <a  href="{% url 'pizza:profile' %}"> профиле </a> пользователя<br>
+                        Пример запроса requests:<br>
+                        <code>
+                            import requests<br>
+                            import json<br>
+                            <br>
+                            data = {<br>
+                                "pizza":<br>
+                                {<br>
+                                    "name": "7 сыра",<br>
+                                    "description": "Пицца из смеси сыров",<br>
+                                    # "slug": "7-syra",<br>
+                                    "tags": [<br>
+                                    3,<br>
+                                    4<br>
+                                        ]<br>
+                            }<br>
+                            }<br>
+                            url = "http://127.0.0.1:8000/api/v1/pizzas/"<br>
+                            token = "20cbbd13b60fc0c5655a7b3e7c8bc7b507041074"<br>
+                            headers = {<br>
+                            'authorization': f"Token {token}",<br>
+                            'content-type': "application/json",v
+                            }<br>
+                            <br>
+                            response = requests.request("POST", url, data=json.dumps(data), headers=headers)<br>
+                            <br>
+                            print(response.text)<br>
+                        </code>
+                    </p>
+                    <p>
+                        <a class="display-6 " href="{% url 'api:api_pizzas_create' %}"> АПИ модели пиццы POST only</a>
+                        <br>
+                        АПИ для модели пицца доступыне методы POST авторизация ненужна .<br>
+                    </p>
+                </div>
+        </div>
+    </div>
+
+{% endblock %}

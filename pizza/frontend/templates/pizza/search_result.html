@@ -1,0 +1,12 @@
+{% extends "pizza/base.html" %}
+
+{% block body %}
+<h2 class="display-5 mb-lg-2">Search results:</h2>
+<ul class="list-unstyled mb-lg-5">
+    {% for pizza in object_list %}
+        <li >
+            <a class="display-6 list-group-item list-group-item-action list-group-item-info" href="{% url 'pizza:pizza' pizza.slug %}"> {{ pizza.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

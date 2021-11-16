@@ -1,0 +1,40 @@
+{% extends "pizza/base.html" %}
+
+{% block body %}
+
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="col-lg-8">
+                <!-- Nested row for non-featured blog posts-->
+                <div class="row">
+                    <!-- Blog post-->
+                    <div class="card mb-4">
+                        {% if pizza.image %}<img class="card-img-top" src="{{ pizza.image.url}}" alt="{{ pizza.description }}" /></a>
+                        {% else %}<img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="{{ pizza.description }}" />
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="small text-muted">
+                                {{ pizza.author.username }} {{ pizza.created_at}}
+                            </div>
+                            <h2 class="card-title h4">{{ pizza.name}}
+                                {% for tag in pizza.tags.all %}
+                                    <a href="/?tag={{ tag.name }}" class="badge rounded-pill bg-warning text-dark">{{ tag.name }}</a>
+                                {% endfor %}
+                            </h2>
+                            <p class="card-text">{{ pizza.description }}</p>
+                        {% for topping in pizza.ingredientinfo_set.all %}
+                            <p><a href="/?topping_id={{ topping.topping.id }}" class="card-text">{{ topping.topping.name }} {{ topping.count }} {{ topping.measure }}</a></p>
+                        {% endfor %}
+                        {% if is_author %}
+                            <a class="btn btn-primary" href="{% url "pizza:pizza_edit" pizza.slug %}">Изменить</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

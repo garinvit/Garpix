@@ -1,0 +1,27 @@
+{% extends "users/base.html" %}
+{% block body %}
+    <main class="form-signin">
+
+<form method="post">
+    <h1 class="h3 mb-3 fw-normal">Sign up Form</h1>
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-floating">
+{#            {{ field }}#}
+            <input type="text" name="{{ field.name }}" class="form-control"  id="floatingInput" maxlength="30" autofocus >
+            <label for="floatingInput">{{ field.label}}</label></div>
+        </div>
+
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+    {% endfor %}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Регистрация</button>
+    <a href="{% url 'pizza:index' %}" class="w-100 btn btn-lg btn-secondary">Войти</a>
+
+</form>
+    </main>
+{% endblock %}

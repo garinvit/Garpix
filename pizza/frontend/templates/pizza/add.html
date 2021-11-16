@@ -1,0 +1,29 @@
+{% extends "pizza/base.html" %}
+
+{% block body %}
+
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog entries-->
+            <div class="col-lg-8">
+                <!-- Nested row for non-featured blog posts-->
+                <div class="row">
+                    <!-- Blog post-->
+{#                    <div class="card">#}
+                        <form method="POST" accept-charset="utf-8" enctype="multipart/form-data" class="row-cols-3">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            {% for i in range %}
+                                <p>{{ing_form.as_table}}</p>
+                            {% endfor %}
+                            <button type="submit">Сохранить</button>
+                        </form>
+{#                    </div>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
