@@ -1,4 +1,5 @@
 from ..models.index_page import IndexPage, Reason, Recommendation, MainBanner
+from ..models.booking import Booking
 from django.contrib import admin
 from garpix_page.admin import BasePageAdmin
 
@@ -13,6 +14,10 @@ class ReasonAdmin(admin.ModelAdmin):
 class RecommendationAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description')
 
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('date_in', 'date_out', 'adults', 'kids')
+    readonly_fields = ('created_at',)
 
 admin.site.register(Reason, ReasonAdmin)
 admin.site.register(Recommendation, RecommendationAdmin)

@@ -1,6 +1,11 @@
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.conf import settings
 from django.db import models
+from garpix_notify.models import Notify
 from garpix_page.models import BasePage
+
+from .booking import Booking
+from ..forms.booking import BookingForm
 
 
 class Navigate(models.Model):
@@ -64,3 +69,17 @@ class IndexPage(BasePage):
         verbose_name = "Главная"
         verbose_name_plural = "Главная"
         ordering = ("-created_at",)
+
+    def get_context(self, request=None, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        if request.method == 'POST':
+            booking_form = BookingForm(request.POST)
+            if booking_form.is_valid():
+                booking = booking_form.save()
+                Notify.send(settings.BOOKING_EVENT, {"booking": booking})
+                context.update({
+                    'message': 'Сообщение успешно отправлено',
+                })
+
+        return context

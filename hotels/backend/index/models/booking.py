@@ -2,10 +2,10 @@ from django.db import models
 
 
 class Booking(models.Model):
-    date_in = models.DateTimeField(verbose_name='Въезд')
-    date_out = models.DateTimeField(verbose_name='Выезд')
-    adults = models.IntegerField()
-    kids = models.IntegerField()
+    date_in = models.CharField(verbose_name='Въезд', max_length=255,)
+    date_out = models.CharField(verbose_name='Выезд', max_length=255)
+    adults = models.PositiveIntegerField()
+    kids = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
