@@ -8,17 +8,6 @@ from .booking import Booking
 from ..forms.booking import BookingForm
 
 
-class Navigate(models.Model):
-    content = models.CharField(max_length=100, verbose_name='Название ссылки')
-    sort = models.IntegerField(default=100, verbose_name='Сортировка',
-                               help_text='Чем меньше число, тем выше будет элемент в списке.')
-
-    class Meta:
-        verbose_name = 'Название ссылки'
-        verbose_name_plural = 'Названия ссылок'
-        ordering = ('sort',)
-
-
 class MainBanner(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название баннера')
     # description = models.CharField(max_length=255, verbose_name='Описание')
