@@ -43,8 +43,11 @@ class HotelsPage(BaseListPage):
                 object_list = object_list.filter(price__gte=min_price)
             if max_price:
                 object_list = object_list.filter(price__lte=max_price)
-            if comfort_set:
-                object_list = object_list.filter(comfort__title__in=comfort_set).distinct()
+            # if comfort_set:  # or filter
+            #     object_list = object_list.filter(comfort__title__in=comfort_set).distinct()
+            if comfort_set:  # and filter
+                for i in comfort_set:
+                    object_list = object_list.filter(comfort__title=i).distinct()
             ordering = request.GET.get('ordering')
             if ordering:
                 if ordering[0] == '+':
@@ -57,10 +60,7 @@ class HotelsPage(BaseListPage):
                 page = int(request.GET.get('page', 1))
             except ValueError:
                 page = 1
-
-
             paginated_object_list = paginator.get_page(page)
-
             context.update({
                 'paginator': paginator,
                 'paginated_object_list': paginated_object_list,
