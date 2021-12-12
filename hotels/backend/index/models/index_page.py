@@ -11,7 +11,7 @@ from ..forms.booking import BookingForm
 class MainBanner(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название баннера')
     # description = models.CharField(max_length=255, verbose_name='Описание')
-    description = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
+    content = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
 
     class Meta:
         verbose_name = 'Абзац'
@@ -24,7 +24,7 @@ class MainBanner(models.Model):
 class Recommendation(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название рекомендации')
     # description = models.CharField(max_length=255, verbose_name='описание')
-    description = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
+    content = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
 
     def __str__(self):
         return self.title
@@ -36,8 +36,8 @@ class Recommendation(models.Model):
 
 class Reason(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название причины')
-    number = models.PositiveIntegerField()
-    description = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
+    number = models.PositiveIntegerField(verbose_name='Номер')
+    content = RichTextUploadingField(verbose_name='Содержание', blank=True, default='')
     # description = models.CharField(max_length=255, verbose_name='Описание причины')
 
     def __str__(self):

@@ -4,15 +4,15 @@ from django.contrib import admin
 from garpix_page.admin import BasePageAdmin
 
 class MainBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description')
+    list_display = ('id', 'title', 'content')
 
 
 class ReasonAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'number', 'description')
+    list_display = ('id', 'title', 'number', 'content')
 
 
 class RecommendationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description')
+    list_display = ('id', 'title', 'content')
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):

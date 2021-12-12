@@ -15,15 +15,35 @@ class HotelsPage(BaseListPage):
     def get_context(self, request=None, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         types = [x[1] for x in CHOICES]
-        context.update({"comfort": Comfort.objects.all(), "types": types})
+        hotels = OneHotelPage.objects.all()
+        comforts = Comfort.objects.all()
+        context.update({"comfort": comforts, "types": types, 'obj_len': len(hotels),})
 
         if request.GET:
             request_set = set(request.GET.dict())
-            comfort_set = set([x.title for x in Comfort.objects.all()]).intersection(request_set)
+            try:
+                min_price = int(request.GET.get('min-price'))
+            except ValueError:
+                min_price = None
+            try:
+                max_price = int(request.GET.get('max-price'))
+            except ValueError:
+                max_price = None
+
+            comfort_set = set([x.title for x in comforts]).intersection(request_set)
+            # comfort_id_list = [x.id for x in comforts.filter(title__in=comfort_set)]
+            # comfort_id_list = [x.id for x in hotels if comfort_set.issubset(x.get_comfort_title())]
+            # print("comfort ids", comfort_id_list)
             types_set = [x.upper() for x in set(types).intersection(request_set)]
             # print("comfort set", comfort_set, types_set, request_set)
-            object_list = OneHotelPage.objects.filter(type__in=types_set)
-            object_list = [x for x in object_list if comfort_set.issubset(x.get_comfort_title())]
+
+            # object_list = OneHotelPage.objects.filter(type__in=types_set)
+            object_list = hotels.filter(type__in=types_set)
+            if min_price:
+                object_list = object_list.filter(price__gte=min_price)
+            if max_price:
+                object_list = object_list.filter(price__lte=max_price)
+            object_list = object_list.filter(comfort__title__in=comfort_set)
             paginator = GarpixPaginator(object_list, self.paginate_by)
             try:
                 page = int(request.GET.get('page', 1))

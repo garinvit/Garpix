@@ -8,7 +8,7 @@
 
       <section class="main-banner">
         <h2 class="visually-hidden">{{object.main_banner.first.title}}</h2>
-        <p class="visually-hidden">{{object.main_banner.first.description|safe}}</p>
+        <p class="visually-hidden">{{object.main_banner.first.content}}</p>
       </section>
 
       <section class="features">
@@ -17,14 +17,14 @@
             {% if message %}
                 <p>{{ message }}</p>
             {% endif %}
-          {{object.main_banner.all.1.description|safe}}
+          {{object.main_banner.all.1.content|safe}}
         </div>
         <ul class="features-list">
           <li class="feature-item-1">
             <div class="feature-item feature-main-city">
               <h3>{{object.reason.first.title}}</h3>
               <p>&ndash;&emsp13;№{{object.reason.first.number}}</p>
-              <p>{{object.reason.first.description|safe}}</p>
+              <p>{{object.reason.first.content|safe}}</p>
             </div>
             <ul class="recommendations-list">
               {% for item in object.recommendation.all %}
@@ -39,14 +39,14 @@
             <div class="feature-item feature-main-bridge">
               <h3>{{object.reason.all.1.title}}</h3>
               <p>&ndash;&emsp13;№{{object.reason.all.1.number}}&emsp13;&ndash;</p>
-              <p>{{object.reason.all.1.description|safe}}</p>
+              <p>{{object.reason.all.1.content|safe}}</p>
             </div>
           </li>
           {% for item in object.reason.all|slice:"2:" %}
           <li class="feature-item feature-standart">
               <h3>{{item.title}}</h3>
               <p>&ndash;&emsp13;№{{item.number}}&emsp13;&ndash;</p>
-              <p>{{item.description|safe}}</p>
+              <p>{{item.content|safe}}</p>
             </div>
           </li>
           {% endfor %}
@@ -55,7 +55,7 @@
 
       <section class="search">
         <h2 class="visually-hidden">{{object.main_banner.last.title}}</h2>
-          {{object.main_banner.last.description|safe}}
+          {{object.main_banner.last.content|safe}}
         <button class="button button-form-show" type="button">Бронирование гостиницы</button>
         <section class="modal">
           <h3 class="visually-hidden">Форма поиска гостиницы в Седоне</h3>
