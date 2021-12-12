@@ -9,35 +9,23 @@
           <fieldset class="filter-item">
             <legend>Инфраструктура:</legend>
               <ul>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="pool" id="filter-pool" checked>
-                  <label for="filter-pool">Бассейн</label>
-                </li>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="parking" id="filter-parking">
-                  <label for="filter-parking">Парковка</label>
-                </li>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="wi-fi" id="filter-wi-fi">
-                  <label for="filter-wi-fi">wi-fi</label>
-                </li>
+                  {% for i in comfort %}
+                    <li class="filter-checkbox">
+                      <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i.title }}" id="{{ i.id }}" unchecked>
+                      <label for="{{ i.id }}">{{ i.title }}</label>
+                    </li>
+                  {% endfor %}
               </ul>
           </fieldset>
           <fieldset class="filter-item">
             <legend>Тип жилья:</legend>
               <ul>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="hotel" id="filter-hotel" checked>
-                  <label for="filter-hotel">Гостиница</label>
-                </li>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="motel" id="filter-motel" checked>
-                  <label for="filter-motel">Мотель</label>
-                </li>
-                <li class="filter-checkbox">
-                  <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="apartments" id="filter-apartments" checked>
-                  <label for="filter-apartments">Апартаменты</label>
-                </li>
+                  {% for i in types %}
+                      <li class="filter-checkbox">
+                          <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i }}" id="{{ i }}" checked>
+                          <label for="{{ i }}">{{ i }}</label>
+                      </li>
+                  {% endfor %}
               </ul>
           </fieldset>
           <fieldset class="filter-item">
@@ -62,7 +50,7 @@
         <div class="results-sort">
           <div class="results-sum">
             <p>Найдено:</p>
-            <div class="results-sum-value">3</div>
+            <div class="results-sum-value">{{ obj_len }}</div>
           </div>
           <div class="sort-controls">
             <h3>Сортировка:</h3>
@@ -74,14 +62,12 @@
           </div>
         </div>
         <ul class="results-list">
-{#        {% for item in object.get_breadcrumbs %}#}
-        {% for item in paginated_object_list %}
+\        {% for item in paginated_object_list %}
           <li class="results-item">
             <a class="hotel-photo" href="#">
                 {% if item.image %}<img src="{{ item.image.url}}" width="135" height="90" alt="{{ item.description }}" /></a>
                 {% else %}<img src="https://dummyimage.com/135x90/" width="135" height="90" alt="{{ item.description }}" />
                 {% endif %}
-{#              <img src="img/amara-resortspa.jpg" width="135" height="90" alt="Гостиница у подножия красных скал во время заката">#}
             </a>
             <div class="results-description">
               <h3><a class="hotel-name" href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
@@ -107,80 +93,22 @@
             </div>
           </li>
         {% endfor %}
-{#          <li class="results-item">#}
-{#            <a class="hotel-photo" href="#">#}
-{#              <img src="img/desert-quailinn.jpg" width="135" height="90" alt="Двухэтажный мотель с парковкой для автомобилей">#}
-{#            </a>#}
-{#            <div class="results-description">#}
-{#              <h3><a class="hotel-name" href="blank.html">Desert Quail Inn</a></h3>#}
-{#              <div class="hotel-characteristics">#}
-{#                <p>Мотель</p>#}
-{#                <p>От 3000 Р.</p>#}
-{#              </div>#}
-{#              <div class="results-buttons">#}
-{#                <a class="button button-info" href="blank.html">Подробнее</a>#}
-{#                <button class="button button-reserv" type="button" name="reserv">Забронировать</button>#}
-{#              </div>#}
-{#            </div>#}
-{#            <div class="results-rating">#}
-{#              <span class="visually-hidden">У отеля три звезды</span>#}
-{#              <ul class="rating-list">#}
-{#                <li></li>#}
-{#                <li></li>#}
-{#                <li></li>#}
-{#              </ul>#}
-{#              <p class="rating-value">Рейтинг: 8,9</p>#}
-{#            </div>#}
-{#          </li>#}
-{##}
-{#          <li class="results-item">#}
-{#            <a class="hotel-photo" href="#">#}
-{#              <img src="img/villas-at-pocodiablo.jpg" width="135" height="90" alt="Одноэтажная вилла с лужайкой и садом">#}
-{#            </a>#}
-{#            <div class="results-description">#}
-{#              <h3><a class="hotel-name" href="blank.html">Villas at Poco Diablo</a></h3>#}
-{#              <div class="hotel-characteristics">#}
-{#                <p>Апартаменты</p>#}
-{#                <p>От 2000 Р.</p>#}
-{#              </div>#}
-{#              <div class="results-buttons">#}
-{#                <a class="button button-info" href="blank.html">Подробнее</a>#}
-{#                <button class="button button-reserv" type="button" name="reserv">Забронировать</button>#}
-{#              </div>#}
-{#            </div>#}
-{##}
-{#            <div class="results-rating">#}
-{#              <span class="visually-hidden">У отеля две звезды</span>#}
-{#              <ul class="rating-list">#}
-{#                <li></li>#}
-{#                <li></li>#}
-{#              </ul>#}
-{#              <p class="rating-value">Рейтинг: 9,2</p>#}
-{#            </div>#}
-{#          </li>#}
         </ul>
-        <ul class="pagination">
-          <li class="pagination-item active">
-            <a href="#">
-              1
-            </a>
-          </li>
-          <li class="pagination-item">
-            <a href="#">
-              2
-            </a>
-          </li>
-          <li class="pagination-item">
-            <a href="#">
-              3
-            </a>
-          </li>
-          <li class="pagination-item">
-            <a href="#">
-              4
-            </a>
-          </li>
-        </ul>
+          {% load url_replace %}
+
+
+          {% if paginator.page_range|length > 1 %}
+              <nav>
+                  <ul class="pagination">
+                      {% for page_num in paginator.page_range_beauty %}
+                          <li class="pagination-item {% if page_num.0 == page %}active{% endif %}">
+                              <a class="page-link" href="?{% url_replace request 'page' page_num.0 %}">{{ page_num.1 }}</a>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              </nav>
+          {% endif %}
+
       </section>
     </main>
 

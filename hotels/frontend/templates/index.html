@@ -46,7 +46,7 @@
           <li class="feature-item feature-standart">
               <h3>{{item.title}}</h3>
               <p>&ndash;&emsp13;№{{item.number}}&emsp13;&ndash;</p>
-              <p>{{item.description}}</p>
+              <p>{{item.description|safe}}</p>
             </div>
           </li>
           {% endfor %}
