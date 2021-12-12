@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from garpix_page.models import BaseListPage
 from garpix_utils.paginator import GarpixPaginator
 from .one_hotel_page import Comfort, OneHotelPage, CHOICES
@@ -17,38 +18,46 @@ class HotelsPage(BaseListPage):
         types = [x[1] for x in CHOICES]
         hotels = OneHotelPage.objects.all()
         comforts = Comfort.objects.all()
-        context.update({"comfort": comforts, "types": types, 'obj_len': len(hotels),})
+        context.update({"comfort": comforts,
+                        "types": types,
+                        'obj_len': len(hotels),
+                        'max_price': hotels.aggregate(Max('price')).get('price__max'),
+                        })
 
         if request.GET:
             request_set = set(request.GET.dict())
+            object_list = hotels
             try:
                 min_price = int(request.GET.get('min-price'))
-            except ValueError:
-                min_price = None
+            except (ValueError, TypeError):
+                min_price = 0
             try:
                 max_price = int(request.GET.get('max-price'))
-            except ValueError:
-                max_price = None
-
+            except (ValueError, TypeError):
+                max_price = 0
             comfort_set = set([x.title for x in comforts]).intersection(request_set)
-            # comfort_id_list = [x.id for x in comforts.filter(title__in=comfort_set)]
-            # comfort_id_list = [x.id for x in hotels if comfort_set.issubset(x.get_comfort_title())]
-            # print("comfort ids", comfort_id_list)
             types_set = [x.upper() for x in set(types).intersection(request_set)]
-            # print("comfort set", comfort_set, types_set, request_set)
-
-            # object_list = OneHotelPage.objects.filter(type__in=types_set)
-            object_list = hotels.filter(type__in=types_set)
+            if types_set:
+                object_list = hotels.filter(type__in=types_set)
             if min_price:
                 object_list = object_list.filter(price__gte=min_price)
             if max_price:
                 object_list = object_list.filter(price__lte=max_price)
-            object_list = object_list.filter(comfort__title__in=comfort_set)
+            if comfort_set:
+                object_list = object_list.filter(comfort__title__in=comfort_set).distinct()
+            ordering = request.GET.get('ordering')
+            if ordering:
+                if ordering[0] == '+':
+                    object_list = object_list.order_by(ordering[1:])
+                else:
+                    object_list = object_list.order_by(ordering)
+
             paginator = GarpixPaginator(object_list, self.paginate_by)
             try:
                 page = int(request.GET.get('page', 1))
             except ValueError:
                 page = 1
+
 
             paginated_object_list = paginator.get_page(page)
 

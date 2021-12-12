@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block main %}
     <main class="hotels-main width-container">
       <h1 class="visually-hidden">Выбор гостиницы в Седоне</h1>
@@ -36,7 +36,7 @@
                      <input type="text" name="min-price" placeholder="от 0">
                   </label>
                   <label class="max-price" aria-label="введите максимальное значение">
-                     <input type="text" name="max-price" placeholder="до 3000">
+                     <input type="text" name="max-price" placeholder="до {{ max_price }}">
                   </label>
                 </div>
               </div>
@@ -54,11 +54,13 @@
           </div>
           <div class="sort-controls">
             <h3>Сортировка:</h3>
-            <div class="sort-parameters">
-              <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="price" class="button sort-parameters-button current" type="button">По цене</button>
-              <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="type" class="button sort-parameters-button" type="button">По типу</button>
-              <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="rating" class="button sort-parameters-button" type="button">По рейтингу</button>
-            </div>
+{#              <form method="get" action='#'>#}
+                <div class="sort-parameters">
+                    <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="price" class="button sort-parameters-button current" type="button">По цене</button>
+                  <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="type" class="button sort-parameters-button" type="button">По типу</button>
+                  <button onclick="filters(this)" data-parametr-name="ordering" data-parametr-value="rating" class="button sort-parameters-button" type="button">По рейтингу</button>
+                </div>
+{#              </form>#}
           </div>
         </div>
         <ul class="results-list">
@@ -118,4 +120,6 @@
         <p>#visitsedona</p>
         <p>тел: <a class="footer-phone" href="tel:+74956660166">+7(495) 666-01-66</a></p>
       </section>
+    <script src="{% static 'js/filters.js' %}"></script>
+
 {% endblock %}
