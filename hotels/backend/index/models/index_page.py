@@ -16,8 +16,8 @@ class IndexPage(BasePage):
                                       related_name="middle_banner")
     bottom_banner = models.ForeignKey(MainBanner, on_delete=models.CASCADE, blank=True, verbose_name='Нижний баннер',
                                       related_name="bottom_banner")
-    tag = models.CharField(max_length=150, verbose_name='Хештэг')
-    phone = models.CharField(max_length=22, verbose_name='Номер телефона')
+    # tag = models.CharField(max_length=150, verbose_name='Хештэг')
+    # phone = models.CharField(max_length=22, verbose_name='Номер телефона')
 
     template = "index.html"
 
@@ -28,10 +28,10 @@ class IndexPage(BasePage):
 
     def get_context(self, request=None, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        phone_number = "".join([ch for ch in self.phone if ch.isdigit()])
-        context.update({"social": self.sociallink_set.all(),
-                        "phone_number": phone_number,
-                        })
+        # phone_number = "".join([ch for ch in self.phone if ch.isdigit()])
+        # context.update({"social": self.sociallink_set.all(),
+        #                 "phone_number": phone_number,
+        #                 })
         if request.method == 'POST':
             booking_form = BookingForm(request.POST)
             if booking_form.is_valid():
