@@ -24,7 +24,6 @@ class HotelsPage(BaseListPage):
                         'obj_len': len(hotels),
                         'max_price': hotels.aggregate(Max('price')).get('price__max'),
                         })
-
         if request.GET:
             request_set = set(request.GET.dict())
             object_list = hotels

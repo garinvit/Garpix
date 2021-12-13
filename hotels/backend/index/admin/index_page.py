@@ -3,7 +3,6 @@ from ..models.reason import Reason
 from ..models.recommendation import Recommendation
 from ..models.banner import MainBanner
 from ..models.booking import Booking
-# from ..models.footer import SocialLink
 from django.contrib import admin
 from garpix_page.admin import BasePageAdmin
 
@@ -24,24 +23,14 @@ class RecommendationInLine(admin.TabularInline):
     extra = 3
 
 
-# class SocialLinkInLine(admin.TabularInline):
-#     model = SocialLink
-
-
 class ReasonInLine(admin.TabularInline):
     model = Reason
-    # extra = 5
 
 
 @admin.register(Reason)
 class ReasonAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'number', 'content')
     inlines = [RecommendationInLine]
-
-#
-# @admin.register(Footer)
-# class FooterAdmin(admin.ModelAdmin):
-#     inlines = [SocialLinkInLine]
 
 
 @admin.register(IndexPage)
@@ -50,4 +39,3 @@ class IndexPageAdmin(BasePageAdmin):
 
 
 admin.site.register(Recommendation)
-# admin.site.register(SocialLink)

@@ -4,4 +4,3 @@ from .booking import Booking  # noqa
 from .reason import Reason # noqa
 from .recommendation import Recommendation # noqa
 from .banner import MainBanner # noqa
-# from .footer import SocialLink # noqa

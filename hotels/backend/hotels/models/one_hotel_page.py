@@ -1,12 +1,6 @@
 from django.db import models
 from garpix_page.models import BasePage
 
-# CHOICES = (
-#     ("ГОСТИНИЦА", "Гостиница"),
-#     ("МОТЕЛЬ", "Мотель"),
-#     ("АПАРТАМЕНТЫ", "Апартаменты"),
-# )
-
 
 class Comfort(models.Model):
     title = models.CharField(max_length=255, verbose_name='Удобства')
@@ -31,7 +25,6 @@ class Type(models.Model):
 
 
 class OneHotelPage(BasePage):
-    # type = models.CharField(max_length=255, verbose_name='Тип отеля', choices=CHOICES)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, blank=True)
     description = models.CharField(max_length=255, verbose_name='Описание', blank=True)
     comfort = models.ManyToManyField(Comfort, blank=True, verbose_name='Удобства')
