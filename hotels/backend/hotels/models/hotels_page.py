@@ -2,7 +2,8 @@ from django.db import models
 from django.db.models import Max
 from garpix_page.models import BaseListPage
 from garpix_utils.paginator import GarpixPaginator
-from .one_hotel_page import Comfort, OneHotelPage, CHOICES
+from .one_hotel_page import Comfort, OneHotelPage, Type
+
 
 class HotelsPage(BaseListPage):
     paginate_by = 3
@@ -15,7 +16,7 @@ class HotelsPage(BaseListPage):
 
     def get_context(self, request=None, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        types = [x[1] for x in CHOICES]
+        types = Type.objects.all()
         hotels = OneHotelPage.objects.all()
         comforts = Comfort.objects.all()
         context.update({"comfort": comforts,
@@ -36,9 +37,9 @@ class HotelsPage(BaseListPage):
             except (ValueError, TypeError):
                 max_price = 0
             comfort_set = set([x.title for x in comforts]).intersection(request_set)
-            types_set = [x.upper() for x in set(types).intersection(request_set)]
+            types_set = set([x.title for x in types]).intersection(request_set)
             if types_set:
-                object_list = hotels.filter(type__in=types_set)
+                object_list = hotels.filter(type__title__in=types_set)
             if min_price:
                 object_list = object_list.filter(price__gte=min_price)
             if max_price:

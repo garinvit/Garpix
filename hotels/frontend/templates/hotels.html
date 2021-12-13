@@ -11,8 +11,8 @@
               <ul>
                   {% for i in comfort %}
                     <li class="filter-checkbox">
-                      <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i.title }}" id="{{ i.id }}" unchecked>
-                      <label for="{{ i.id }}">{{ i.title }}</label>
+                      <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i.title }}" id="{{ i.id }}_comfort" unchecked>
+                      <label for="{{ i.id }}_comfort">{{ i.title }}</label>
                     </li>
                   {% endfor %}
               </ul>
@@ -22,8 +22,8 @@
               <ul>
                   {% for i in types %}
                       <li class="filter-checkbox">
-                          <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i }}" id="{{ i }}" checked>
-                          <label for="{{ i }}">{{ i }}</label>
+                          <input class="visually-hidden filter-input-checkbox filter-input" type="checkbox" name="{{ i.title }}" id="{{ i.id }}_type" checked>
+                          <label for="{{ i.id }}_type">{{ i.title }}</label>
                       </li>
                   {% endfor %}
               </ul>
@@ -74,7 +74,7 @@
             <div class="results-description">
               <h3><a class="hotel-name" href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
               <div class="hotel-characteristics">
-                <p>{{ item.type }}</p>
+                <p>{{ item.type.title }}</p>
                 <p>От {{ item.price }} Р.</p>
               </div>
               <div class="results-buttons">

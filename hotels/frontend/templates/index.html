@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block main %}
 
@@ -7,60 +8,80 @@
       <h1 class="visually-hidden">Городок Седона</h1>
 
       <section class="main-banner">
-        <h2 class="visually-hidden">{{object.main_banner.first.title}}</h2>
-        <p class="visually-hidden">{{object.main_banner.first.content}}</p>
+        <h2 class="visually-hidden">{{object.top_banner.title}}</h2>
+        <p class="visually-hidden">{{object.top_banner.content}}</p>
       </section>
 
       <section class="features">
-        <h2 class="visually-hidden">{{object.main_banner_set.first.title}}</h2>
+        <h2 class="visually-hidden">{{object.middle_banner.title}}</h2>
         <div class="features-title">
             {% if message %}
                 <p>{{ message }}</p>
             {% endif %}
-          {{object.main_banner.all.1.content|safe}}
+          {{object.middle_banner.content|safe}}
         </div>
         <ul class="features-list">
           <li class="feature-item-1">
             <div class="feature-item feature-main-city">
-              <h3>{{object.reason.first.title}}</h3>
-              <p>&ndash;&emsp13;№{{object.reason.first.number}}</p>
-              <p>{{object.reason.first.content|safe}}</p>
+              <h3>{{object.reason_set.first.title}}</h3>
+              <p>&ndash;&emsp13;№{{object.reason_set.first.number}}&emsp13;&ndash;</p>
+              <p>{{object.reason_set.first.content|safe}}</p>
             </div>
             <ul class="recommendations-list">
-              {% for item in object.recommendation.all %}
+              {% for item in object.reason_set.first.recommendation_set.all %}
               <li class="recommendation-item">
                 <h4>{{item.title}}</h4>
-                <p>{{item.description|safe}}</p>
+                <p>{{item.content|safe}}</p>
               </li>
               {% endfor %}
             </ul>
           </li>
           <li class="feature-item-2">
             <div class="feature-item feature-main-bridge">
-              <h3>{{object.reason.all.1.title}}</h3>
-              <p>&ndash;&emsp13;№{{object.reason.all.1.number}}&emsp13;&ndash;</p>
-              <p>{{object.reason.all.1.content|safe}}</p>
+              <h3>{{object.reason_set.all.1.title}}</h3>
+              <p>&ndash;&emsp13;№{{object.reason_set.all.1.number}}&emsp13;&ndash;</p>
+              <p>{{object.reason_set.all.1.content|safe}}</p>
             </div>
           </li>
-          {% for item in object.reason.all|slice:"2:" %}
+            {% if object.reason_set.all.1 %}
+                <ul class="recommendations-list">
+                    {% for item in object.reason_set.all.1.recommendation_set.all %}
+                        <li class="recommendation-item">
+                            <h4>{{item.title}}</h4>
+                            <p>{{item.content|safe}}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+{#        <ul>#}
+          {% for item in object.reason_set.all|slice:"2:" %}
           <li class="feature-item feature-standart">
               <h3>{{item.title}}</h3>
               <p>&ndash;&emsp13;№{{item.number}}&emsp13;&ndash;</p>
               <p>{{item.content|safe}}</p>
             </div>
           </li>
+              {% if item.recommendation_set.all %}
+                  <ul class="recommendations-list">
+                      {% for rec in item.recommendation_set.all %}
+                          <li class="recommendation-item">
+                              <h4>{{ rec.title}}</h4>
+                              <p>{{ rec.content|safe}}</p>
+                          </li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
           {% endfor %}
         </ul>
       </section>
 
       <section class="search">
-        <h2 class="visually-hidden">{{object.main_banner.last.title}}</h2>
-          {{object.main_banner.last.content|safe}}
+        <h2 class="visually-hidden">{{object.bottom_banner.title}}</h2>
+          {{object.bottom_banner.content|safe}}
         <button class="button button-form-show" type="button">Бронирование гостиницы</button>
         <section class="modal">
           <h3 class="visually-hidden">Форма поиска гостиницы в Седоне</h3>
 
-{#          <form class="search-form" action="#" method="get">#}
           <form class="search-form" method="post">
               {% csrf_token %}
             <p>
@@ -84,13 +105,13 @@
               </button>
             </p>
             <p>
-              <label for="adults">взрослые:</label>
-              <input class="number-input" type="text" name="adults" id="id_adults"  pattern="^[ 0-9]+$" value="2" aria-label="укажите количество взрослых">
+              <label for="adults_count">взрослые:</label>
+              <input class="number-input" type="text" name="adults_count" id="id_adults_count"  pattern="^[ 0-9]+$" value="2" aria-label="укажите количество взрослых">
               <button class="button button-number-minus button-adults-minus" type="button" name="number-minus-icon" aria-label="уменьшить значение"></button>
               <button class="button button-number-plus button-adults-plus" type="button" name="number-plus-icon" aria-label="увеличить значение"></button>
 
-              <label for="kids">дети:</label>
-              <input class="number-input" type="text" name="kids" id="id_kids"  pattern="^[ 0-9]+$" value="0" aria-label="укажите количество детей">
+              <label for="kids_count">дети:</label>
+              <input class="number-input" type="text" name="kids_count" id="id_kids_count"  pattern="^[ 0-9]+$" value="0" aria-label="укажите количество детей">
               <button class="button button-number-minus button-kids-minus" type="button" name="number-minus-icon" aria-label="уменьшить значение"></button>
               <button class="button button-number-plus button-kids-plus" type="button" name="number-plus-icon" aria-label="увеличить значение"></button>
             </p>
@@ -109,4 +130,5 @@
         </iframe>
       </section>
     </main>
+
 {% endblock %}

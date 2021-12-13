@@ -7,14 +7,16 @@ INSTALLED_APPS += [
 ]
 
 MENU_TYPE_HEADER_MENU = 'header_menu'
+MENU_TYPE_FOOTER_MENU = 'footer_menu'
 
 MENU_TYPES = {
     MENU_TYPE_HEADER_MENU: {
-        'title': 'Верхнее меню',
+        'title': 'Оглавление',
+    },
+    MENU_TYPE_FOOTER_MENU: {
+        'title': 'Соц.сети',
     },
 }
-
-CHOICE_MENU_TYPES = [(k, v['title']) for k, v in MENU_TYPES.items()]
 
 BOOKING_EVENT = 1
 
